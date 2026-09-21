@@ -1,0 +1,22 @@
+name: Verify library
+
+on:
+  pull_request:
+  push:
+    branches: ['**']
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+      - run: npm run build-storybook
+        env:
+          STORYBOOK_BASE_PATH: /Week-3-Inclass/
+      - run: npm pack --dry-run

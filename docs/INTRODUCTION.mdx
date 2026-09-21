@@ -1,0 +1,19 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as HeaderStories from '../src/components/header.stories.jsx';
+import * as FormStories from '../src/components/forms.stories.jsx';
+
+<Meta title="Start here/Overview" />
+
+# Field Notes component library
+
+This is a React Native component library. Storybook renders the same source in a browser through `react-native-web`; an Expo application can install the built package from a Git tag.
+
+<Canvas of={HeaderStories.Solid} />
+
+The components use shared color, spacing, and radius tokens. Their APIs describe meaningful choices—such as theme, list type, and button state—instead of exposing arbitrary styling knobs.
+
+## Form states
+
+<Canvas of={FormStories.Buttons} />
+
+Before releasing a tag, run `npm run verify`, `npm run build-storybook`, and `npm pack --dry-run`.

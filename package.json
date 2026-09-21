@@ -1,0 +1,73 @@
+{
+  "name": "week-3-inclass",
+  "version": "1.0.0",
+  "description": "A React Native component library with browser-based Storybook documentation.",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "react-native": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "LICENSE", "README.md"],
+  "scripts": {
+    "build": "npm run build:code && npm run build:types",
+    "build:code": "tsup src/index.js --format esm,cjs --sourcemap --clean --external react --external react-native",
+    "build:types": "tsc -p jsconfig.build.json",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build -o storybook-static",
+    "lint": "eslint .",
+    "check:js": "tsc -p jsconfig.json",
+    "test": "vitest run",
+    "verify": "npm run lint && npm run check:js && npm run test && npm run build",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QierLong92/Week-3-Inclass.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/QierLong92/Week-3-Inclass/issues"
+  },
+  "homepage": "https://qierlong92.github.io/Week-3-Inclass/",
+  "engines": { "node": ">=22.13.0" },
+  "peerDependencies": {
+    "react": ">=19.2.0 <20.0.0",
+    "react-native": ">=0.86.0 <0.88.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@storybook/addon-a11y": "10.6.0",
+    "@storybook/addon-docs": "10.6.0",
+    "@storybook/react-vite": "10.6.0",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "eslint": "9.39.5",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "jsdom": "27.0.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-web": "0.21.2",
+    "storybook": "10.6.0",
+    "tsup": "8.5.1",
+    "typescript": "6.0.3",
+    "vite": "8.3.0",
+    "vitest": "5.0.1"
+  }
+}
