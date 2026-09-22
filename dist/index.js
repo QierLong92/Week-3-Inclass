@@ -298,10 +298,135 @@ var styles4 = StyleSheet4.create({
   hovered: { opacity: 0.78 },
   buttonText: { fontSize: 16, fontWeight: "700" }
 });
+
+// src/components/menus.tsx
+import { createElement as createElement2, useState as useState3 } from "react";
+import { Platform as Platform2, Pressable as Pressable5, StyleSheet as StyleSheet5, Text as Text5, View as View5 } from "react-native";
+import { Fragment, jsx as jsx5, jsxs as jsxs5 } from "react/jsx-runtime";
+function Menu({
+  items,
+  variant = "horizontal",
+  openOnHover = false,
+  label = "Open navigation menu",
+  theme = "light",
+  colorStyle,
+  style
+}) {
+  const [open, setOpen] = useState3(false);
+  const palette = resolveColorStyle(theme, colorStyle);
+  const hamburger = variant === "hamburger";
+  const visible = !hamburger || open;
+  const content = /* @__PURE__ */ jsxs5(Fragment, { children: [
+    hamburger ? /* @__PURE__ */ jsxs5(
+      Pressable5,
+      {
+        accessibilityLabel: label,
+        accessibilityRole: "button",
+        accessibilityState: { expanded: open },
+        onPress: () => setOpen((current) => !current),
+        style: (state) => [styles5.trigger, { backgroundColor: palette.background, borderColor: palette.border }, (state.pressed || isHovered(state)) && styles5.active],
+        children: [
+          /* @__PURE__ */ jsx5(Text5, { style: [styles5.triggerIcon, { color: palette.primary }], children: "\u2630" }),
+          /* @__PURE__ */ jsx5(Text5, { style: [styles5.triggerLabel, { color: palette.text }], children: "Menu" })
+        ]
+      }
+    ) : null,
+    visible ? /* @__PURE__ */ jsx5(View5, { style: [styles5.menu, variant === "horizontal" ? styles5.horizontal : styles5.vertical, hamburger && [styles5.dropdown, { backgroundColor: palette.background, borderColor: palette.border }]], children: items.map((item) => /* @__PURE__ */ jsx5(
+      Pressable5,
+      {
+        disabled: item.disabled,
+        accessibilityRole: "link",
+        accessibilityState: { disabled: item.disabled },
+        onPress: () => {
+          item.onPress();
+          if (hamburger) setOpen(false);
+        },
+        style: (state) => [styles5.item, (state.pressed || isHovered(state)) && { backgroundColor: palette.surface }, item.disabled && styles5.disabled],
+        children: /* @__PURE__ */ jsx5(Text5, { style: [styles5.itemLabel, { color: palette.text }], children: item.label })
+      },
+      item.id
+    )) }) : null
+  ] });
+  if (openOnHover && hamburger && Platform2.OS === "web") {
+    return createElement2("div", { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false), style: { alignSelf: "flex-start", position: "relative" } }, content);
+  }
+  return /* @__PURE__ */ jsx5(View5, { style: [styles5.container, style], children: content });
+}
+function isHovered(state) {
+  return state.hovered === true;
+}
+var styles5 = StyleSheet5.create({
+  container: { alignSelf: "flex-start", position: "relative" },
+  menu: { gap: spacing.xs },
+  horizontal: { flexDirection: "row", flexWrap: "wrap" },
+  vertical: { alignItems: "stretch" },
+  dropdown: { borderWidth: 1, borderRadius: radius.md, marginTop: spacing.xs, minWidth: 176, padding: spacing.xs, position: "absolute", right: 0, top: 44, zIndex: 3 },
+  trigger: { alignItems: "center", borderRadius: radius.md, borderWidth: 1, flexDirection: "row", gap: spacing.sm, minHeight: 44, paddingHorizontal: spacing.md },
+  triggerIcon: { fontSize: 20, fontWeight: "700" },
+  triggerLabel: { fontSize: 15, fontWeight: "700" },
+  item: { borderRadius: radius.sm, minHeight: 40, justifyContent: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.sm },
+  itemLabel: { fontSize: 15, fontWeight: "600" },
+  active: { opacity: 0.72 },
+  disabled: { opacity: 0.42 }
+});
+
+// src/components/icon.tsx
+import { Pressable as Pressable6, StyleSheet as StyleSheet6, Text as Text6, View as View6 } from "react-native";
+import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+function IconLink({
+  label,
+  icon,
+  onPress,
+  kind = "action",
+  showLabel = false,
+  disabled = false,
+  theme = "light",
+  colorStyle,
+  style
+}) {
+  const palette = resolveColorStyle(theme, colorStyle);
+  const kindStyle = kind === "social" ? styles6.social : kind === "navigation" ? styles6.navigation : styles6.action;
+  return /* @__PURE__ */ jsxs6(
+    Pressable6,
+    {
+      disabled,
+      accessibilityLabel: label,
+      accessibilityRole: "link",
+      accessibilityState: { disabled },
+      onPress,
+      style: (state) => [styles6.link, kindStyle, { backgroundColor: palette.background, borderColor: palette.border }, (state.pressed || isHovered2(state)) && { backgroundColor: palette.surface, borderColor: palette.primary }, disabled && styles6.disabled, style],
+      children: [
+        /* @__PURE__ */ jsx6(View6, { pointerEvents: "none", style: styles6.icon, children: typeof icon === "string" ? /* @__PURE__ */ jsx6(Text6, { style: [styles6.glyph, { color: palette.primary }], children: icon }) : icon }),
+        showLabel ? /* @__PURE__ */ jsx6(Text6, { style: [styles6.label, { color: palette.text }], children: label }) : null
+      ]
+    }
+  );
+}
+function IconLinkGroup({ children, direction = "row", style }) {
+  return /* @__PURE__ */ jsx6(View6, { style: [styles6.group, direction === "column" && styles6.column, style], children });
+}
+function isHovered2(state) {
+  return state.hovered === true;
+}
+var styles6 = StyleSheet6.create({
+  link: { alignItems: "center", borderRadius: radius.md, borderWidth: 1, flexDirection: "row", gap: spacing.xs, justifyContent: "center", minHeight: 44, minWidth: 44, paddingHorizontal: spacing.sm },
+  social: { borderRadius: radius.pill },
+  navigation: { borderRadius: radius.sm },
+  action: {},
+  icon: { alignItems: "center", justifyContent: "center" },
+  glyph: { fontSize: 20, fontWeight: "700" },
+  label: { fontSize: 14, fontWeight: "600" },
+  disabled: { opacity: 0.42 },
+  group: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
+  column: { alignItems: "flex-start", flexDirection: "column" }
+});
 export {
   Footer,
   Header,
+  IconLink,
+  IconLinkGroup,
   List,
+  Menu,
   SelectField,
   SubmitButton,
   TextField,

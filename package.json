@@ -22,7 +22,7 @@
     "build": "npm run build:code && npm run build:types",
     "build:code": "tsup src/index.js --format esm,cjs --sourcemap --clean --external react --external react-native",
     "build:types": "tsc -p jsconfig.build.json",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6007",
     "build-storybook": "storybook build -o storybook-static",
     "lint": "eslint .",
     "check:js": "tsc -p jsconfig.json",

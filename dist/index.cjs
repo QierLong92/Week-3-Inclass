@@ -22,7 +22,10 @@ var index_exports = {};
 __export(index_exports, {
   Footer: () => Footer,
   Header: () => Header,
+  IconLink: () => IconLink,
+  IconLinkGroup: () => IconLinkGroup,
   List: () => List,
+  Menu: () => Menu,
   SelectField: () => SelectField,
   SubmitButton: () => SubmitButton,
   TextField: () => TextField,
@@ -333,11 +336,136 @@ var styles4 = import_react_native4.StyleSheet.create({
   hovered: { opacity: 0.78 },
   buttonText: { fontSize: 16, fontWeight: "700" }
 });
+
+// src/components/menus.tsx
+var import_react3 = require("react");
+var import_react_native5 = require("react-native");
+var import_jsx_runtime5 = require("react/jsx-runtime");
+function Menu({
+  items,
+  variant = "horizontal",
+  openOnHover = false,
+  label = "Open navigation menu",
+  theme = "light",
+  colorStyle,
+  style
+}) {
+  const [open, setOpen] = (0, import_react3.useState)(false);
+  const palette = resolveColorStyle(theme, colorStyle);
+  const hamburger = variant === "hamburger";
+  const visible = !hamburger || open;
+  const content = /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(import_jsx_runtime5.Fragment, { children: [
+    hamburger ? /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)(
+      import_react_native5.Pressable,
+      {
+        accessibilityLabel: label,
+        accessibilityRole: "button",
+        accessibilityState: { expanded: open },
+        onPress: () => setOpen((current) => !current),
+        style: (state) => [styles5.trigger, { backgroundColor: palette.background, borderColor: palette.border }, (state.pressed || isHovered(state)) && styles5.active],
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_native5.Text, { style: [styles5.triggerIcon, { color: palette.primary }], children: "\u2630" }),
+          /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_native5.Text, { style: [styles5.triggerLabel, { color: palette.text }], children: "Menu" })
+        ]
+      }
+    ) : null,
+    visible ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_native5.View, { style: [styles5.menu, variant === "horizontal" ? styles5.horizontal : styles5.vertical, hamburger && [styles5.dropdown, { backgroundColor: palette.background, borderColor: palette.border }]], children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(
+      import_react_native5.Pressable,
+      {
+        disabled: item.disabled,
+        accessibilityRole: "link",
+        accessibilityState: { disabled: item.disabled },
+        onPress: () => {
+          item.onPress();
+          if (hamburger) setOpen(false);
+        },
+        style: (state) => [styles5.item, (state.pressed || isHovered(state)) && { backgroundColor: palette.surface }, item.disabled && styles5.disabled],
+        children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_native5.Text, { style: [styles5.itemLabel, { color: palette.text }], children: item.label })
+      },
+      item.id
+    )) }) : null
+  ] });
+  if (openOnHover && hamburger && import_react_native5.Platform.OS === "web") {
+    return (0, import_react3.createElement)("div", { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false), style: { alignSelf: "flex-start", position: "relative" } }, content);
+  }
+  return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(import_react_native5.View, { style: [styles5.container, style], children: content });
+}
+function isHovered(state) {
+  return state.hovered === true;
+}
+var styles5 = import_react_native5.StyleSheet.create({
+  container: { alignSelf: "flex-start", position: "relative" },
+  menu: { gap: spacing.xs },
+  horizontal: { flexDirection: "row", flexWrap: "wrap" },
+  vertical: { alignItems: "stretch" },
+  dropdown: { borderWidth: 1, borderRadius: radius.md, marginTop: spacing.xs, minWidth: 176, padding: spacing.xs, position: "absolute", right: 0, top: 44, zIndex: 3 },
+  trigger: { alignItems: "center", borderRadius: radius.md, borderWidth: 1, flexDirection: "row", gap: spacing.sm, minHeight: 44, paddingHorizontal: spacing.md },
+  triggerIcon: { fontSize: 20, fontWeight: "700" },
+  triggerLabel: { fontSize: 15, fontWeight: "700" },
+  item: { borderRadius: radius.sm, minHeight: 40, justifyContent: "center", paddingHorizontal: spacing.md, paddingVertical: spacing.sm },
+  itemLabel: { fontSize: 15, fontWeight: "600" },
+  active: { opacity: 0.72 },
+  disabled: { opacity: 0.42 }
+});
+
+// src/components/icon.tsx
+var import_react_native6 = require("react-native");
+var import_jsx_runtime6 = require("react/jsx-runtime");
+function IconLink({
+  label,
+  icon,
+  onPress,
+  kind = "action",
+  showLabel = false,
+  disabled = false,
+  theme = "light",
+  colorStyle,
+  style
+}) {
+  const palette = resolveColorStyle(theme, colorStyle);
+  const kindStyle = kind === "social" ? styles6.social : kind === "navigation" ? styles6.navigation : styles6.action;
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(
+    import_react_native6.Pressable,
+    {
+      disabled,
+      accessibilityLabel: label,
+      accessibilityRole: "link",
+      accessibilityState: { disabled },
+      onPress,
+      style: (state) => [styles6.link, kindStyle, { backgroundColor: palette.background, borderColor: palette.border }, (state.pressed || isHovered2(state)) && { backgroundColor: palette.surface, borderColor: palette.primary }, disabled && styles6.disabled, style],
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_native6.View, { pointerEvents: "none", style: styles6.icon, children: typeof icon === "string" ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_native6.Text, { style: [styles6.glyph, { color: palette.primary }], children: icon }) : icon }),
+        showLabel ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_native6.Text, { style: [styles6.label, { color: palette.text }], children: label }) : null
+      ]
+    }
+  );
+}
+function IconLinkGroup({ children, direction = "row", style }) {
+  return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(import_react_native6.View, { style: [styles6.group, direction === "column" && styles6.column, style], children });
+}
+function isHovered2(state) {
+  return state.hovered === true;
+}
+var styles6 = import_react_native6.StyleSheet.create({
+  link: { alignItems: "center", borderRadius: radius.md, borderWidth: 1, flexDirection: "row", gap: spacing.xs, justifyContent: "center", minHeight: 44, minWidth: 44, paddingHorizontal: spacing.sm },
+  social: { borderRadius: radius.pill },
+  navigation: { borderRadius: radius.sm },
+  action: {},
+  icon: { alignItems: "center", justifyContent: "center" },
+  glyph: { fontSize: 20, fontWeight: "700" },
+  label: { fontSize: 14, fontWeight: "600" },
+  disabled: { opacity: 0.42 },
+  group: { flexDirection: "row", flexWrap: "wrap", gap: spacing.sm },
+  column: { alignItems: "flex-start", flexDirection: "column" }
+});
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Footer,
   Header,
+  IconLink,
+  IconLinkGroup,
   List,
+  Menu,
   SelectField,
   SubmitButton,
   TextField,

@@ -7,6 +7,6 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": ["src/index.js", "src/tokens.js", "src/components/header.jsx", "src/components/footer.jsx", "src/components/list.jsx", "src/components/forms.jsx"],
+  "include": ["src/index.js", "src/tokens.js", "src/components/header.jsx", "src/components/footer.jsx", "src/components/list.jsx", "src/components/forms.jsx", "src/components/menus.tsx", "src/components/icon.tsx"],
   "exclude": ["src/**/*.stories.jsx", "src/__tests__", "node_modules"]
 }

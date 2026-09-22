@@ -3,7 +3,7 @@ import process from 'node:process';
 
 /** @type {import('@storybook/react-vite').StorybookConfig} */
 const config = {
-  stories: ['../docs/**/*.mdx', '../src/**/*.stories.@(js|jsx)'],
+  stories: ['../docs/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: { name: '@storybook/react-vite', options: {} },
   docs: { autodocs: true },
